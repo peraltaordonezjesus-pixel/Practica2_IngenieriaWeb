@@ -9,15 +9,15 @@
 import { updatePassword } from "../models/usuarios.js";
 
 export const recuperarPassword = async (req, res) => {
-  const { correo, preguntaRecuperacion, nuevaPassword } = req.body;
+  const { correo, respuesta, nuevaPassword } = req.body;
 
-  if (!correo || !preguntaRecuperacion || !nuevaPassword) {
+  if (!correo || !respuesta || !nuevaPassword) {
     return res.json({ msg: "Faltan datos" });
   }
 
   const user = await updatePassword(
     correo,
-    preguntaRecuperacion,
+    respuesta,
     nuevaPassword
   );
 
@@ -32,16 +32,17 @@ export const recuperarPassword = async (req, res) => {
 import { createUser } from "../models/usuarios.js";
 
 export const registrarUsuario = async (req, res) => {
-  const { correo, password, preguntaRecuperacion } = req.body;
+  const { correo, password, pregunta, respuesta } = req.body;
 
-  if (!correo || !password || !preguntaRecuperacion) {
+  if (!correo || !password || !pregunta || !respuesta) {
     return res.json({ msg: "Faltan datos" });
   }
 
   const user = await createUser({
     email: correo,
     password,
-    preguntaRecuperacion
+    pregunta,
+    respuesta
   });
 
   if (!user) {
@@ -49,4 +50,40 @@ export const registrarUsuario = async (req, res) => {
   }
 
   res.json({ msg: "Usuario registrado correctamente" });
+};
+
+import { loginUser } from "../models/usuarios.js";
+
+export const login = async (req, res) => {
+  const { correo, password } = req.body;
+
+  if (!correo || !password) {
+    return res.json({ msg: "Faltan datos" });
+  }
+
+  const user = await loginUser(correo, password);
+
+  if (!user) {
+    return res.json({ msg: "Correo o contraseña incorrectos" });
+  }
+
+  res.json({ msg: "Inicio de sesión exitoso" });
+};
+
+import { findUserByEmail } from "../models/usuarios.js";
+
+export const obtenerPregunta = async (req, res) => {
+  const { correo } = req.body;
+
+  if (!correo) {
+    return res.json({ msg: "Correo requerido" });
+  }
+
+  const user = await findUserByEmail(correo);
+
+  if (!user) {
+    return res.json({ msg: "Usuario no encontrado" });
+  }
+
+  res.json({ pregunta: user.pregunta });
 };

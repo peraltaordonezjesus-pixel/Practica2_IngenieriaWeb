@@ -9,6 +9,8 @@ const campos = [
     "correo"
 ];
 
+import { mostrarModal } from "./modal.js";
+
 function validarCampo(id) {
     const input = document.getElementById(id);
     const error = document.getElementById("error-" + id);
@@ -98,9 +100,10 @@ form.addEventListener("submit", async function (e) {
     if (!valido) return;
 
     const data = {
-        correo: document.getElementById("correo").value,
-        password: document.getElementById("password").value,
-        preguntaRecuperacion: document.getElementById("preguntaRecuperacion").value,
+    correo: document.getElementById("correo").value,
+    password: document.getElementById("password").value,
+    pregunta: document.getElementById("preguntaRecuperacion").value,
+    respuesta: document.getElementById("respuestaRecuperacion").value,
     };
 
     try {
@@ -114,8 +117,8 @@ form.addEventListener("submit", async function (e) {
 
         const result = await res.json();
 
-        resultado.textContent = result.msg;
+        mostrarModal(result.msg);
     } catch (error) {
-        resultado.textContent = "Error al conectar";
+        mostrarModal(result.msg);
     }
 });

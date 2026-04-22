@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../css/formStyles.css">
 </head>
 <body>
-
     <form id="formRecuperacion" novalidate>
         <h2>Formulario de recuperación</h2>
 
@@ -20,17 +19,16 @@
         >
         <span class="mensaje" id="error-correo"></span>
 
-        <label for="preguntaRecuperacion">Pregunta de recuperación:</label>
+        <label>Pregunta de recuperación:</label>
+        <p id="preguntaTexto"></p>
+        <span class="mensaje" id="error-pregunta"></span>
+
+        <label>Respuesta:</label>
         <input 
             type="text" 
-            id="preguntaRecuperacion" 
-            name="preguntaRecuperacion"
-            minlength="5"
-            maxlength="100"
-            placeholder="Ej. ¿Nombre de tu primera mascota?"
+            id="respuestaRecuperacion"
             required
         >
-        <span class="mensaje" id="error-pregunta"></span>
 
         <label for="nuevaPassword">Nueva contraseña:</label>
         <input 
@@ -53,7 +51,13 @@
 
     <pre id="resultado"></pre>
 
-    <script src="../js/validateRecuperacion.js"></script>
-
+    
+    <script type="module" src="../js/validateRecuperacion.js"></script>
+    <div id="modal" class="modal">
+    <div class="modal-content">
+        <span id="cerrarModal">&times;</span>
+        <p id="modalMensaje"></p>
+    </div>
+    </div>    
 </body>
 </html>

@@ -24,14 +24,14 @@ export const findUserByEmail = async (email) => {
   ) || null;
 };
 
-export const updatePassword = async (email, pregunta, nuevaPassword) => {
+export const updatePassword = async (email, respuesta, nuevaPassword) => {
   try {
     const users = await readUsers();
 
     const user = users.find(
       (u) =>
-        u.email.trim().toLowerCase() === email.trim().toLowerCase() &&
-        u.preguntaRecuperacion.trim().toLowerCase() === pregunta.trim().toLowerCase()
+        u.email.toLowerCase() === email.toLowerCase() &&
+        u.respuesta.toLowerCase() === respuesta.toLowerCase()
     );
 
     if (!user) return null;
@@ -47,6 +47,7 @@ export const updatePassword = async (email, pregunta, nuevaPassword) => {
   }
 };
 
+
 export const createUser = async (newUser) => {
   try {
     const users = await readUsers();
@@ -58,11 +59,33 @@ export const createUser = async (newUser) => {
 
     if (exists) return null;
 
-    users.push(newUser);
+  users.push({
+    email: newUser.email,
+    password: newUser.password,
+    pregunta: newUser.pregunta,
+    respuesta: newUser.respuesta
+  });
 
     await writeFile(FILE_PATH, JSON.stringify(users, null, 2));
 
     return newUser;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
+};
+
+export const loginUser = async (email, password) => {
+  try {
+    const users = await readUsers();
+
+    const user = users.find(
+      (u) =>
+        u.email.trim().toLowerCase() === email.trim().toLowerCase() &&
+        u.password === password
+    );
+
+    return user || null;
   } catch (error) {
     console.error("Error:", error);
     return null;

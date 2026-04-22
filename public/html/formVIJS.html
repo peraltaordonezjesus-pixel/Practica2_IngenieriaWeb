@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../css/formStyles.css">
 </head>
 <body>
-
+    <script type="module" src="../js/validateFormB.js"></script>
     <form id="formRecuperacion" novalidate>
         <h2>Formulario de registro</h2>
 
@@ -42,28 +42,33 @@
         >
         <span class="mensaje" id="error-password"></span>
 
-        <label for ="pregunta">Pregunta de recuperación</label>
-        <input
-            type="text"
-            id="preguntaRecuperacion"
-            name="preguntaRecuperacion"
-            placeholder="Nombre de tu primer mascota?"
-            required
-        >
+        <label>Pregunta de recuperación:</label>
+        <select id="preguntaRecuperacion" required>
+        <option value="">Seleccione una pregunta</option>
+        <option value="mascota">¿Nombre de tu primera mascota?</option>
+        <option value="escuela">¿Nombre de tu escuela primaria?</option>
+        <option value="comida">¿Comida favorita?</option>
+        </select>
+
+        <label>Respuesta:</label>
+        <input type="text" id="respuestaRecuperacion" required>        
 
         <span class="mensaje" id="error-correo"></span>
-        <p class="link-recuperacion">
-            ¿Olvidaste tu contraseña? 
-            <a href="recuperacionCuenta.html">Recuperar</a>
-        </p>
+
         <div class="btnContainer">            
             <button class="submit" type="submit">Enviar</button>
             <button class="reset" type="reset">Limpiar</button>
+            <button type="button" class="reset" onclick="history.back()"> Regresar</button>
         </div>  
     </form>
 
     <pre id="resultado"></pre>
 
-    <script src="../js/validateFormB.js"></script>
+    <div id="modal" class="modal">
+    <div class="modal-content">
+        <span id="cerrarModal">&times;</span>
+        <p id="modalMensaje"></p>
+    </div>
+    </div>    
 </body>
 </html>
